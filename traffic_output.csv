@@ -1,0 +1,19 @@
+time,object,event
+0, car1, arrived0, car1, departed
+5, car2, arrived5, car2, departed
+10, car3, arrived10, car3, departed
+15, car4, arrived15, car4, departed
+20, car5, arrived20, car5, departed
+25, car6, arrived25, car6, departed
+30, car7, arrived30, car7, departed
+35, car8, arrived40, car9, arrived45, car10, arrived50, car11, arrived52, car11, departed
+52, car10, departed
+52, car9, departed
+52, car8, departed
+55, car12, arrived55, car12, departed
+60, car13, arrived60, car13, departed
+65, car14, arrived65, car14, departed
+70, car15, arrived70, car15, departed
+75, car16, arrived75, car16, departed
+80, car17, arrived80, car17, departed
+85, car18, arrived90, car19, arrived95, car20, arrived

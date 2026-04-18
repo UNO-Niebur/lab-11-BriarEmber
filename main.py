@@ -1,7 +1,7 @@
 # StopLightSim.py
-# Name:
-# Date:
-# Assignment:
+# Name: Devyn Conaway
+# Date: 4/15/2026
+# Assignment: Lab 11
 
 import simpy
 
@@ -9,7 +9,7 @@ import simpy
 greenLight = True
 
 
-def stopLight(env):
+def stopLight(env, outfile):
     """Simulates a traffic light that cycles between green, yellow, and red."""
     global greenLight
 
@@ -26,44 +26,53 @@ def stopLight(env):
         yield env.timeout(20)
 
 
-def car(env, car_id):
+def car(env, car_id, direction, outfile):
     """Simulates a car arriving and waiting for the light."""
     
     print("Car", car_id, "arrived at", env.now)
+    outfile.write(f"{env.now}, car{car_id}, arrived")
 
     # TODO: Make the car wait while the light is red
     # Hint: use a loop and env.timeout(1)
+    while not greenLight:
+        yield env.timeout(1)
 
     print("Car", car_id, "departed at", env.now)
+    outfile.write(f"{env.now}, car{car_id}, departed\n")
 
-
-def carArrival(env):
+def carArrival(env, outfile):
     """Creates cars at regular intervals."""
-    
     car_id = 0
+    directions = ["NS", "EW"]
 
     while True:
         car_id += 1
         print("Creating Car", car_id)
+        direction = directions[car_id % 2]
 
         # TODO: Start a new car process
+        
+        env.process(car(env, car_id, direction, outfile))
 
         yield env.timeout(5)
 
 
 def main():
     env = simpy.Environment()
+        
+    with open("traffic_output.csv", "w") as f:
+            f.write("time,object,event\n")  # header
 
-    # Start processes
-    env.process(stopLight(env))
-    
-    # TODO: Start the carArrival process
+            # Start processes
+            env.process(stopLight(env, f))
+            env.process(carArrival(env, f))
 
-    # Run simulation
-    env.run(until=100)
+            # TODO: Start the carArrival process
+
+            # Run simulation
+            env.run(until=100)
 
     print("Simulation complete")
-
 
 if __name__ == "__main__":
     main()
